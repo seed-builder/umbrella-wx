@@ -11,6 +11,6 @@
 </script>
 
 <style lang="css">
-  @import "./assets/js/layer/theme/layer.css";
+  /*@import "./assets/js/layer/theme/layer.css";*/
   @import "./assets/css/style.css";
 </style>

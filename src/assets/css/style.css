@@ -1,7 +1,7 @@
 @charset "utf-8";
 html{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 *,:after,:before{-moz-box-sizing:inherit;-webkit-box-sizing:inherit;box-sizing:inherit}
-body{margin:0;background: #f3f4f5;color: #363636;opacity: 0;}
+body{margin:0;background: #f3f4f5;color: #363636;opacity: 1;}
 body,button,input,select,textarea{font:14px/1.5 "Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif;}
 dd,dl,form,p{margin:0}
 li,ol,ul{margin:0;padding:0;list-style-type:none;}
