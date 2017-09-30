@@ -151,7 +151,7 @@ define(function(require, exports, module) {
                 content: url
             })
         })
-        
+
     }
 
     // 保存用户信息
@@ -168,7 +168,7 @@ define(function(require, exports, module) {
                     required: true
                 },
                 address:{
-                   required: true 
+                   required: true
                 }
             },
             messages: {
