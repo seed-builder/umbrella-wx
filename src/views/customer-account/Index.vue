@@ -60,7 +60,8 @@
       return {
         account: {},
         recharge_amt: 5,
-        custom_amt: 0
+        custom_amt: 0,
+        nickname : localStorage.nickname,
       }
     },
     watch: {
