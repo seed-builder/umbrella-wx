@@ -15,38 +15,38 @@ if(k&&j[k]&&(e||j[k].data)||void 0!==d||"string"!=typeof b)return k||(k=i?a[h]=c
 
 $(function(){
 	$('body').css('opacity','1');
-	  var menuspeed  = 400; // 边栏滑出耗费时间  
-	  var $bdy       = $('body');
-	  var $container = $('#page-index');
-	  var $burger    = $('#page-menu');
-	  var negwidth   = '-70%';
-	  var poswidth   = '70%';
-	  
-	  $('.m-index .account').on('click',function(e){
-	    if($bdy.hasClass('openmenu')) {
-	      jsAnimateMenu('close');
-	    } else {
-	      jsAnimateMenu('open');
-	    }
-	  });
-	  
-	  $('.mask').on('click', function(e){
-	    if($bdy.hasClass('openmenu')) {
-	      jsAnimateMenu('close');
-	    }
-	  });
-	  
-	  function jsAnimateMenu(tog) {
-	    if(tog == 'open') {
-	      $bdy.addClass('openmenu');      
-	      $container.animate({marginRight: poswidth, marginLeft: negwidth}, menuspeed);
-	      $burger.animate({right: '0'}, menuspeed);
-	    }
-	    
-	    if(tog == 'close') {
-	      $bdy.removeClass('openmenu');      
-	      $container.animate({marginRight: "0", marginLeft: "0"}, menuspeed);
-	      $burger.animate({right: '-70%'}, menuspeed);
-	    }
-	  }
+	  // var menuspeed  = 400; // 边栏滑出耗费时间
+	  // var $bdy       = $('body');
+	  // var $container = $('#page-index');
+	  // var $burger    = $('#page-menu');
+	  // var negwidth   = '-70%';
+	  // var poswidth   = '70%';
+      //
+	  // $('.m-index .account').on('click',function(e){
+	  //   if($bdy.hasClass('openmenu')) {
+	  //     jsAnimateMenu('close');
+	  //   } else {
+	  //     jsAnimateMenu('open');
+	  //   }
+	  // });
+      //
+	  // $('.mask').on('click', function(e){
+	  //   if($bdy.hasClass('openmenu')) {
+	  //     jsAnimateMenu('close');
+	  //   }
+	  // });
+      //
+	  // function jsAnimateMenu(tog) {
+	  //   if(tog == 'open') {
+	  //     $bdy.addClass('openmenu');
+	  //     $container.animate({marginRight: poswidth, marginLeft: negwidth}, menuspeed);
+	  //     $burger.animate({right: '0'}, menuspeed);
+	  //   }
+      //
+	  //   if(tog == 'close') {
+	  //     $bdy.removeClass('openmenu');
+	  //     $container.animate({marginRight: "0", marginLeft: "0"}, menuspeed);
+	  //     $burger.animate({right: '-70%'}, menuspeed);
+	  //   }
+	  // }
 });

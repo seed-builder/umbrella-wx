@@ -4,6 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import common from './assets/js/common'
+import layer from 'vue-layer-mobile'
+import 'vue-layer-mobile/need/layer.css'
+Vue.use(layer)
 
 Vue.config.productionTip = false
 

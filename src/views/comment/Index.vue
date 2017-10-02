@@ -6,7 +6,9 @@
 
 <script>
   export default {
-    data() {},
+    data() {
+      return {}
+    },
     methods: {},
     mounted() {
       console.log('Component mounted.')
