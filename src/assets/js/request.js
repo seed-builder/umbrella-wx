@@ -47,5 +47,21 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
+  },
+  async asyncGet(url, params){
+    try {
+      const  response  = await axios.get(url, params);
+      return response.data;
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async asyncPost(url, params){
+    try {
+      const  response  = await axios.post(url, qsdata(params));
+      return response.data;
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

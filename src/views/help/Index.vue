@@ -11,8 +11,7 @@
 </template>
 
 <script>
-//  import request from 'co-request';
-import Request from '../../assets/js/request.js'
+  import Request from '../../assets/js/request.js'
 
   export default {
     data: function(){
@@ -20,14 +19,13 @@ import Request from '../../assets/js/request.js'
         helps: []
       };
     },
-    created: function () {
-      var self = this;
-      Request.get('/api/help?page=1&pageSize=100', {}, function (data) {
-          console.log(data);
-          if (data.count > 0){
-            self.helps = data.list;
-          }
-      });
+    created: async function () {
+      const result = await Request.asyncGet('/api/help?page=1&pageSize=10&sort=sort%20asc',{});
+//      console.log(result);
+      const data = result.data;
+      if(data.count > 0) {
+        this.helps = data.list;
+      }
     },
   }
 </script>
