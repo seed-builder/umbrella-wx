@@ -34,11 +34,10 @@ export default {
       params: params
     })
       .then(function (response) {
-        //console.log(response.data);
-        // if (response.data.result_code==0){
-        if (success_callback)
-          success_callback(response.data);
-        // }
+        if (response.data.result_code==0){
+          if (success_callback)
+            success_callback(response.data.data);
+        }
         if (response.data.result_code != 0) {
           if (fail_callback)
             fail_callback(response.data);

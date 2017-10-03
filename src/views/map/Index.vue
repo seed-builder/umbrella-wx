@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="m-index">
-      <div class="m-conbox">
-        <div id="map" class="map"></div>
+    <div class="m-index" >
+      <div class="m-conbox" >
+        <div id="map" class="map" ></div>
         <a @click="showSidebar()" class="account" title="我的个人信息"></a>
         <a @click="location()" class="location" title="定位"></a>
         <a @click="unlock()" class="scan" href="#" title="扫描"></a>
@@ -22,6 +22,27 @@
       </ul>
     </div>
     <div class="mask" @click="hideMask()"></div>
+
+    <div id="info-window" style="display: none">
+      <div class="amap-ui-smp-ifwn-container info">
+        <a class="amap-ui-infowindow-close amap-ui-smp-ifwn-def-tr-close">&#10006;</a>
+        <div class="amap-ui-smp-ifwn-content-body">
+          <div class="info-title">
+            <i class="iconfont icon-house"></i> <%= site_name %>
+          </div>
+          <hr>
+          <div class="info-text">
+            <p><i class="iconfont icon-san"></i> 可用雨伞 <span class="have-count"><%= have %></span> 把 </p>
+            <p><i class="iconfont icon-yusan"></i> 可还伞位 <span class="repay-count"><%= repay %></span> 把</p>
+          </div>
+          <hr>
+          <div class="info-image">
+            <img src="<%= photo %>"/>
+          </div>
+        </div>
+        <div class="amap-ui-smp-ifwn-combo-sharp"></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -29,20 +50,24 @@
 <script>
   import Request from '../../assets/js/request.js'
   import siteLogo from '../../assets/images/icon_site.png'
+  import s_layer from "../../assets/js/s_layer";
 
   export default {
     mounted() {
       this.map = new AMap.Map('map', {
-        zoom: 12,
+        zoom: 16,
         resizeEnable: true
       });
 
       this.map.setMapStyle('amap://styles/479729a2d3aab261e939ebd11c35790b');
 
+      this.checkNph();
       this.getSites();
-//      wx.ready(function () {
-//        this.wechatLocation();
-//      });
+
+      let self = this;
+      this.map.on('click', function(e) {
+        self.map.clearInfoWindow();
+      });
     },
     data() {
       return {
@@ -54,7 +79,7 @@
         },
         head_img: localStorage.head_img_url,
         nickname: localStorage.nickname,
-        sites : []
+        sites: []
       }
     },
     methods: {
@@ -62,7 +87,7 @@
         alert(1);
       },
       unlock: function () {
-//        var self = this;
+//        let self = this;
 //        this.$layer.footer({
 //          content: '共享伞解锁',
 //          btn: ['手动输入', '扫码借伞']
@@ -133,58 +158,94 @@
       },
 
       //扫码借伞
-      scan : function () {
+      scan: function () {
         alert('扫码借伞')
       },
-      input : function () {
+      input: function () {
         alert('手动输入')
       },
 
       //网点列表
-      getSites : function () {
+      getSites: function () {
         let self = this;
         Request.get('/api/site/pagination', {}, function (data) {
+          console.log(data)
           data.forEach(function (item) {
             let marker = self.createMarker([item.longitude, item.latitude])
-
-//            infoWindow(marker, data[i]);
+            self.infoWindow(marker, item);
           })
 
         })
       },
 
       //创建标注
-      createMarker : function (point) {
+      createMarker: function (point) {
         if (!point) {
           return;
         }
 
         let marker = new AMap.Marker({
-          // icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
           icon: siteLogo,
           position: point,
-          visible: true,
         });
         marker.setMap(this.map);
 
         return marker;
-      }
+      },
 
+      //信息窗体
+      infoWindow: function (marker, data) {
+        let self = this;
+
+        let infoWindow = new AMap.InfoWindow({
+          isCustom: true,
+          content: self.windowContent(data),
+          offset: new AMap.Pixel(25, -35)
+        });
+          AMap.event.addListener(marker, 'click', function () {
+            self.openInfoWin(infoWindow,marker);
+          });
+      },
+      windowContent : function (data) {
+        return '<div class="map-window amap-ui-smp-ifwn-container">' +
+          '  <div class="window-title">'+data.name+'</div>' +
+          '  <hr>' +
+          '  <div class="window-content">' +
+          '    <p class="window-content-item">可用雨伞：'+data.umbrella_hava+' 把</p>' +
+          '    <p class="window-content-item">可还伞位：'+data.umbrella_repay+' 把</p>' +
+          '  </div>' +
+          '  <hr>' +
+          '  <div class="window-footer">' +
+          '    <img src="'+data.photo+'">' +
+          '  </div>' +
+          '</div>' +
+          '<div class="info-bottom" style="position: relative; top: 0px; margin: 0px auto;width: 5vh;"><img src="http://webapi.amap.com/images/sharp.png"></div>'
+      },
+      openInfoWin : function (infoWindow,marker) {
+        infoWindow.open(this.map, marker.getPosition());
+      },
+
+     //检查未完成租借单数量
+     checkNph:function () {
+       let self = this;
+       Request.get('/api/customer-hire/check-nph', {},function () {
+
+       },function (data) {
+         s_layer.options(data.result_msg,['去支付','先借伞'],function () {
+           self.$router.push({path: '/payemnt'})
+         });
+       })
+
+     }
     }
 
   }
 </script>
+
 <style scoped>
   #map {
     height: 100vh;
   }
 
-  .amap-icon{
-    width: 56px !important;
-    height: 90px !important;
-  }
-  .amap-icon img{
-    width: 56px !important;
-    height: 90px !important;
-  }
 </style>
+
