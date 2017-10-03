@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://7t-web.com/wechat/',
+        target: 'http://7t-web.com/api/',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

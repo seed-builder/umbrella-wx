@@ -34,11 +34,11 @@ export default {
       params: params
     })
       .then(function (response) {
-        if (response.data.result_code==0){
+        if (response.data.success){
           if (success_callback)
             success_callback(response.data.data);
         }
-        if (response.data.result_code != 0) {
+        if (!response.data.success) {
           if (fail_callback)
             fail_callback(response.data);
         }
