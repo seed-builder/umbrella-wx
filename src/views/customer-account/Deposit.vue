@@ -1,17 +1,59 @@
 <template>
   <div>
-
+    <div class="m-conbox">
+      <div class="tab">
+        <a @click="routeTo('/account/withdraw')">押金提现</a>
+        <a class="on" >押金充值</a>
+      </div>
+      <div class="m-form">
+        <div class="m-wthdrawals">
+          <div class="form-item">
+            <label class="form-label">押金金额</label>
+            <span class="form-val"><span class="unit">¥</span>{{entity.deposit_cash}}</span>
+          </div>
+        </div>
+        <div class="form-tip"><i class="icon"></i>点击充值押金，代表已接受<span class="agree">《押金充值协议》</span></div>
+        <div class="form-btn">
+          <input class="btn" type="submit" value="充押金" id="chargeForm-btn" @click="submit"/>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+  import Request from '../../assets/js/request.js'
+  import WxPay from '../../assets/js/wechat_pay.js'
+  import s_layer from "../../assets/js/s_layer";
+
   export default {
     data() {
-      return {}
+      return {
+        entity : {}
+      }
     },
-    methods: {},
+    methods: {
+      routeTo: function (url) {
+        this.$router.push({path: url})
+      },
+      submit : function () {
+        let self = this;
+        Request.post('/api/customer-payment',{
+          amt : self.entity.deposit_cash,
+          payment_channel : 1,
+          type : 2,
+        },function (data) {
+          WxPay.pay(data.data.js_params, function () {
+            self.paySuccess(data.data.order_id)
+          });
+        })
+      }
+    },
     mounted() {
-      console.log('Component mounted.')
+      let self = this;
+      Request.get('/api/price',{},function (data) {
+        self.entity = data;
+      })
     }
   }
 </script>

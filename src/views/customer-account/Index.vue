@@ -38,7 +38,7 @@
           </div>
           <div class="form-tip">点击充值，代表已接受<span class="agree">《充值协议》</span></div>
           <div class="form-btn">
-            <input class="btn" type="submit" value="充值" id="chargeForm-btn"/>
+            <input class="btn" type="submit" value="充值" id="chargeForm-btn" @click="submit"/>
           </div>
         </div>
       </div>
@@ -48,13 +48,12 @@
 
 <script>
   import Request from '../../assets/js/request.js'
+  import WxPay from '../../assets/js/wechat_pay.js'
+  import s_layer from "../../assets/js/s_layer";
 
   export default {
     mounted() {
-      let self = this;
-      Request.get('/api/customer-account/by-customer', {}, function (data) {
-        self.account = data;
-      })
+      this.init();
     },
     data() {
       return {
@@ -62,6 +61,8 @@
         recharge_amt: 5,
         custom_amt: 0,
         nickname : localStorage.nickname,
+        pay_params : '',
+        order_id : 0
       }
     },
     watch: {
@@ -73,6 +74,12 @@
       }
     },
     methods: {
+      init : function () {
+        let self = this;
+        Request.get('/api/customer-account/by-customer', {}, function (data) {
+          self.account = data;
+        })
+      },
       amtItemSelect: function (amt) {
         this.custom_amt = 0;
         this.recharge_amt = amt;
@@ -80,6 +87,22 @@
       routeTo: function (url) {
         this.$router.push({path: url})
       },
+      submit : function () {
+        let self = this;
+        Request.post('/api/customer-payment',{
+          amt : self.recharge_amt,
+          payment_channel : 1,
+          type : 1,
+        },function (data) {
+          WxPay.pay(data.data.js_params, function () {
+            self.paySuccess(data.data.order_id)
+            self.init();
+          });
+        })
+      },
+      paySuccess : function (id) {
+        Request.get('/api/wechat/return/'+id,{})
+      }
     },
   }
 </script>

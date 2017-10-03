@@ -10,6 +10,7 @@ import CustomerEdit from '@/views/customer/Edit'
 
 import Account from '@/views/customer-account/Index'
 import AccountDeposit from '@/views/customer-account/Deposit'
+import AccountWithdraw from '@/views/customer-account/Withdraw'
 
 import Hire from '@/views/customer-hire/Index'
 
@@ -56,6 +57,10 @@ export default new Router({
     {
       path: '/account/deposit',
       component: AccountDeposit
+    },
+    {
+      path: '/account/withdraw',
+      component: AccountWithdraw
     },
     {
       path: '/hire',

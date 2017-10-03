@@ -232,7 +232,7 @@
 
        },function (data) {
          s_layer.options(data.msg,['去支付','先借伞'],function () {
-           self.$router.push({path: '/payemnt'})
+           self.$router.push({path: '/payment'})
          });
        })
 
