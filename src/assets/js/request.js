@@ -48,17 +48,22 @@ export default {
         console.log(error);
       });
   },
-  async asyncGet(url, params){
+  async asyncGet(url, data){
+    if(!data){
+      data = {};
+    }
+    data.token = localStorage.token;
     try {
-      const  response  = await axios.get(url, params);
+      const  response  = await axios.get(url, data);
       return response.data;
     } catch (error) {
       console.log(error)
     }
   },
-  async asyncPost(url, params){
+  async asyncPost(url, data){
+    data.token = localStorage.token;
     try {
-      const  response  = await axios.post(url, qsdata(params));
+      const  response  = await axios.post(url, qsdata(data));
       return response.data;
     } catch (error) {
       console.log(error)

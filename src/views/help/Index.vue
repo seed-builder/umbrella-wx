@@ -20,7 +20,7 @@
       };
     },
     created: async function () {
-      const result = await Request.asyncGet('/api/help?page=1&pageSize=10&sort=sort%20asc',{});
+      const result = await Request.asyncGet('/api/help?page=1&pageSize=100&sort=sort%20asc',{});
 //      console.log(result);
       const data = result.data;
       if(data.count > 0) {

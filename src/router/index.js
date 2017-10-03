@@ -21,6 +21,9 @@ import Help from '@/views/help/Index'
 import HelpView from '@/views/help/View'
 import Map from '@/views/map/Index'
 
+import RegisterProtocol from '@/views/protocol/Register'
+import RechargeProtocol from '@/views/protocol/Recharge'
+
 Vue.use(Router)
 
 export default new Router({
@@ -86,6 +89,14 @@ export default new Router({
     {
       path: '/map',
       component: Map
+    },
+    {
+      path: '/register-protocol',
+      component: RegisterProtocol
+    },
+    {
+      path: '/recharge-protocol',
+      component: RechargeProtocol
     }
   ]
 })
