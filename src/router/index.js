@@ -17,6 +17,7 @@ import Payment from '@/views/customer-payment/Index'
 import PaymentView from '@/views/customer-payment/View'
 
 import Help from '@/views/help/Index'
+import HelpView from '@/views/help/View'
 import Map from '@/views/map/Index'
 
 Vue.use(Router)
@@ -71,6 +72,11 @@ export default new Router({
     {
       path: '/help',
       component: Help
+    },
+    {
+      path: '/help/:id',
+      name: 'help-view',
+      component: HelpView
     },
     {
       path: '/map',
