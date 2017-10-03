@@ -12,8 +12,8 @@ export default {
 
     return axios.post(url, qsdata(data))
       .then(function (response) {
-        if (response.data.result_code != 0) {
-          slayer.alert(response.data.result_msg)
+        if (!response.data.success) {
+          slayer.alert(response.data.msg)
           if (fail_callback) {
             fail_callback();
           }
