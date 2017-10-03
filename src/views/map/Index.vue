@@ -168,9 +168,9 @@
       //网点列表
       getSites: function () {
         let self = this;
-        Request.get('/api/site/pagination', {}, function (data) {
+        Request.get('/api/site', {}, function (data) {
           console.log(data)
-          data.forEach(function (item) {
+          data.list.forEach(function (item) {
             let marker = self.createMarker([item.longitude, item.latitude])
             self.infoWindow(marker, item);
           })
@@ -228,10 +228,10 @@
      //检查未完成租借单数量
      checkNph:function () {
        let self = this;
-       Request.get('/api/customer-hire/check-nph', {},function () {
+       Request.get('/api/customer-hire/customer/no-completes', {},function () {
 
        },function (data) {
-         s_layer.options(data.result_msg,['去支付','先借伞'],function () {
+         s_layer.options(data.msg,['去支付','先借伞'],function () {
            self.$router.push({path: '/payemnt'})
          });
        })

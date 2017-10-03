@@ -52,7 +52,7 @@
   export default {
     mounted() {
       let self = this;
-      Request.get('/api/customer-account/get', {}, function (data) {
+      Request.get('/api/customer-account/by-customer', {}, function (data) {
         self.account = data;
       })
     },
