@@ -41,11 +41,9 @@
         var url = '/api/customer-payment';
         this.curPage ++;
         var data = {
-          params: {
-            page: this.curPage,
-            pageSize: 10,
-            sort: 'id desc',
-          }
+          page: this.curPage,
+          pageSize: 10,
+          sort: 'id desc',
         };
         var result = await Request.asyncGet(url, data);
         if(result.data.list.length > 0){
@@ -53,7 +51,7 @@
           for(var i = 0; i < list.length; i++){
             this.payments.push(list[i]);
           }
-          this.hasMore = true;
+          this.hasMore = result.data.count - result.data.list.length;
         }else{
           this.hasMore = false;
         }

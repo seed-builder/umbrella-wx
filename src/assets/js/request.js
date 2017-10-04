@@ -48,22 +48,37 @@ export default {
         console.log(error);
       });
   },
-  async asyncGet(url, data){
-    if(!data){
-      data = {};
+  async asyncGet(url, dataJson){
+    if(!dataJson){
+      dataJson = {};
     }
-    data.token = localStorage.token;
+    dataJson.token = localStorage.token;
     try {
-      const  response  = await axios.get(url, data);
+      const  response  = await axios.get(url, { params: dataJson });
       return response.data;
     } catch (error) {
       console.log(error)
     }
   },
-  async asyncPost(url, data){
-    data.token = localStorage.token;
+  async asyncPost(url, dataJson){
+    if(!dataJson){
+      dataJson = {}
+    }
+    dataJson.token = localStorage.token;
     try {
-      const  response  = await axios.post(url, qsdata(data));
+      const  response  = await axios.post(url, dataJson);
+      return response.data;
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async asyncPut(url, dataJson){
+    if(!dataJson){
+      dataJson = {}
+    }
+    dataJson.token = localStorage.token;
+    try {
+      const  response  = await axios.put(url, dataJson);
       return response.data;
     } catch (error) {
       console.log(error)
