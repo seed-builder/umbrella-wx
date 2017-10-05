@@ -45,21 +45,21 @@
         </div>
       </form>
   </div>
-    <div class="album">
-      <label>上传照片</label>
-      <image-html5-upload ></image-html5-upload>
-    </div>
+    <!--<div class="album">-->
+      <!--<label>上传照片</label>-->
+      <!--<image-html5-upload ></image-html5-upload>-->
+    <!--</div>-->
   </div>
 </template>
 
 <script>
   import Request from '../../assets/js/request.js'
-  import pic from './pic'
+//  import pic from './pic'
 
   export default {
-    components:{
-      'image-html5-upload': pic,
-    },
+//    components:{
+//      'image-html5-upload': pic,
+//    },
     data() {
       return {
         service_id: 0,
