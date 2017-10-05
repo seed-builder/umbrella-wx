@@ -11,7 +11,7 @@
           <div class="form-item">
             <i class="icon icon-code"></i>
             <input class="form-input" type="text" name="valicode" placeholder="请输入验证码" id="valicode" v-model="valicode" />
-            <input type="button" class="form-code" id="getSmsCode" value="发送验证码" :disabled="smsDisabled" data-status="0" @click="getSmsCode">
+            <input type="button" class="form-code" id="getSmsCode" value="发送验证码" :disabled="!smsEnabled" data-status="0" @click="getSmsCode">
           </div>
           <div class="form-btn">
             <input class="btn" type="button" value="注册" id="loginForm-btn" @click="doRegister" />
@@ -31,12 +31,12 @@
       return {
         phone: '',
         valicode: '',
-        smsDisabled: true,
+        smsEnabled: false,
       }
     },
     watch:{
       phone: function () {
-        this.smsDisabled = this.phone.length != 11
+        this.smsEnabled = /^[0-9]{11}$/.test(this.phone);
       }
     },
     methods: {
