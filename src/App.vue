@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!--<wx-config></wx-config>-->
+    <wx-config></wx-config>
 
     <router-view></router-view>
   </div>
@@ -10,8 +10,8 @@
   import Vue from 'vue'
   import Request from './assets/js/request.js'
 
-//  import WxConfig from "./components/config/JsApi";
-//  Vue.component('wx-config', WxConfig);
+  import WxConfig from "./components/config/JsApi";
+  Vue.component('wx-config', WxConfig);
 
   export default {
     name: 'app',

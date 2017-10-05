@@ -104,14 +104,12 @@
       wxLocation: function () {
         let loactionMarker;
         let self = this;
-        alert(1);
 
         wx.getLocation({
           type: 'gcj02',
           success: function (res) {
             let latitude = res.latitude;
             let longitude = res.longitude;
-            alert(res.latitude);
 
             self.map.setZoomAndCenter(16, [longitude, latitude]);
 
