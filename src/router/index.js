@@ -24,6 +24,8 @@ import Map from '@/views/map/Index'
 import RegisterProtocol from '@/views/protocol/Register'
 import RechargeProtocol from '@/views/protocol/Recharge'
 
+import Comment from '@/views/comment/Index'
+
 Vue.use(Router)
 
 export default new Router({
