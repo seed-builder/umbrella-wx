@@ -52,12 +52,12 @@
   import siteLogo from '../../assets/images/icon_site.png'
   import s_layer from "../../assets/js/s_layer";
 
-
+  let loactionMarker;
   export default {
     mounted() {
       let self = this;
       this.map = new AMap.Map('map', {
-        zoom: 16,
+        zoom: 10,
         resizeEnable: true
       });
 
@@ -84,11 +84,13 @@
         },
         head_img: localStorage.head_img_url,
         nickname: localStorage.nickname,
-        sites: []
+        sites: [],
       }
     },
     methods: {
       location: function () {
+        loactionMarker.setMap(null);
+
         this.wxLocation();
       },
       unlock: function () {
@@ -102,7 +104,6 @@
 
       //微信定位
       wxLocation: function () {
-        let loactionMarker;
         let self = this;
 
         wx.getLocation({
@@ -116,6 +117,8 @@
             loactionMarker = new AMap.Marker({
               position: [longitude, latitude]
             });
+
+            loactionMarker.setMap(null);
             loactionMarker.setMap(self.map)
           },
           cancel: function (res) {

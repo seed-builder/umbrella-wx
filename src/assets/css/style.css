@@ -226,3 +226,15 @@ to{-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0)}}
 .m-show .form{background: rgba(255,255,255,.95);padding: .2rem .15rem;border-radius: .05rem;}
 .m-show .form input[type=text]{width:100%;padding: .12rem;border-radius:.05rem;border: 2px solid #fad126;margin-bottom: .15rem;}
 .m-show .form input[type=submit]{display: block;width: 100%;height: .5035rem;color: #363636;margin: 0 auto;padding: .07rem 0 0.105rem;border: 0;font-size: .15rem;background: url(../images/btn.png) no-repeat;background-size: 100%;}
+
+.amap-icon {width: 28px !important;height: 45px !important;}
+.map-window{
+  background: white;
+  width: 80vw;
+  padding: .1rem !important;
+  font-size: 13px;
+  -webkit-box-shadow: 10px 10px 3px rgba(0,0,0,.2) !important;
+}
+.window-title{font-size: 17px;font-weight: bold}
+.window-content-item{height: 3.5vh;}
+.amap-logo{ display: none;  }
