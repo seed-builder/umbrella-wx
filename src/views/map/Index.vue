@@ -52,8 +52,10 @@
   import siteLogo from '../../assets/images/icon_site.png'
   import s_layer from "../../assets/js/s_layer";
 
+
   export default {
     mounted() {
+      let self = this;
       this.map = new AMap.Map('map', {
         zoom: 16,
         resizeEnable: true
@@ -61,10 +63,13 @@
 
       this.map.setMapStyle('amap://styles/479729a2d3aab261e939ebd11c35790b');
 
+      wx.ready(function () {
+        self.wxLocation();
+      });
+
       this.checkNph();
       this.getSites();
 
-      let self = this;
       this.map.on('click', function(e) {
         self.map.clearInfoWindow();
       });
@@ -84,20 +89,10 @@
     },
     methods: {
       location: function () {
-        alert(1);
+        this.wxLocation();
       },
       unlock: function () {
-//        let self = this;
-//        this.$layer.footer({
-//          content: '共享伞解锁',
-//          btn: ['手动输入', '扫码借伞']
-//        }).then(function (index) {
-//          if (index == 0)
-//            self.input();
-//          else
-//            self.scan();
-//
-//        })
+
       },
 
       routeTo: function (url) {
@@ -108,21 +103,25 @@
       //微信定位
       wxLocation: function () {
         let loactionMarker;
+        let self = this;
+        alert(1);
+
         wx.getLocation({
           type: 'gcj02',
           success: function (res) {
             let latitude = res.latitude;
             let longitude = res.longitude;
+            alert(res.latitude);
 
-            this.map.setZoomAndCenter(16, [longitude, latitude]);
+            self.map.setZoomAndCenter(16, [longitude, latitude]);
 
             loactionMarker = new AMap.Marker({
               position: [longitude, latitude]
             });
-            loactionMarker.setMap(map)
+            loactionMarker.setMap(self.map)
           },
           cancel: function (res) {
-            layer.alert('您已拒绝了授权获取地理位置，要授权才能定位到您的位置哦');
+            s_layer.alert('您已拒绝了授权获取地理位置，要授权才能定位到您的位置哦');
           },
         });
       },
@@ -231,6 +230,9 @@
        Request.get('/api/customer-hire/customer/no-completes', {},function () {
 
        },function (data) {
+         if (!data.msg)
+           return ;
+
          s_layer.options(data.msg,['去支付','先借伞'],function () {
            self.$router.push({path: '/payment'})
          });

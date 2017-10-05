@@ -17,12 +17,12 @@
           </div>
           <div class="form-price">
             <div class="form-label">提现金额</div>
-            <div class="form-control"><input type="text" placeholder="请输入您要提现的金额"><span class="unit">¥</span></div>
+            <div class="form-control"><input type="text" placeholder="请输入您要提现的金额" v-model="amt"><span class="unit">¥</span></div>
           </div>
         </div>
         <div class="form-tip"><i class="icon"></i>每个用户每天最多有三次提现次数</div>
         <div class="form-btn">
-          <input class="btn" type="submit" value="押金提现" />
+          <input class="btn" type="button" value="押金提现" @click="submit"/>
         </div>
       </div>
     </div>
@@ -31,10 +31,12 @@
 
 <script>
   import Request from '../../assets/js/request.js'
+  import s_layer from "../../assets/js/s_layer";
   export default {
     data() {
       return {
-        account : {}
+        account : {},
+        amt : ''
       }
     },
     methods: {
@@ -47,6 +49,14 @@
       routeTo: function (url) {
         this.$router.push({path: url})
       },
+      submit : function () {
+        let self = this;
+        Request.post('/api/customer-withdraw', {
+          'amt' : self.amt
+        }, function (data) {
+          s_layer.alert(data.msg);
+        })
+      }
     },
     mounted() {
       this.init();

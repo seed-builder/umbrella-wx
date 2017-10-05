@@ -1,17 +1,25 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <script type="text/javascript" src = 'http://webapi.amap.com/maps?v=1.3&key=3e3dbb3d6dce66cd3b9fd70e234bb050'></script>
-    <script src="//webapi.amap.com/ui/1.0/main.js"></script>
-    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-      $.get('/api/wechat/js-api-config',{
+<template>
+  <div>
+
+  </div>
+</template>
+
+<script>
+  import Request from '../../assets/js/request.js'
+
+  export default {
+    data(){
+      return{
+
+      }
+    },
+    methods: {},
+    mounted() {
+      let self = this;
+      Request.get('/api/wechat/js-api-config',{
         url : location.href
       },function (data) {
-        let config = data.data;
+        let config = data;
         wx.config({
           debug: false,
           appId: config.appId,
@@ -54,12 +62,9 @@
           ]
         });
       })
-    </script>
+    }
+  }
+</script>
+<style scoped>
 
-    <title>umbrella-wx</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
-</html>
+</style>
