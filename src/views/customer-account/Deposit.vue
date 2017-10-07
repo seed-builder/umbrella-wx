@@ -38,11 +38,13 @@
       },
       submit : function () {
         let self = this;
+        s_layer.loading('请稍等...');
         Request.post('/api/customer-payment',{
           amt : self.entity.deposit_cash,
           payment_channel : 1,
           type : 2,
         },function (data) {
+          s_layer.closeLoading();
           WxPay.pay(data.data.js_params, function () {
             self.paySuccess(data.data.order_id)
           });
