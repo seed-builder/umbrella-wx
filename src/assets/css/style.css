@@ -225,4 +225,4 @@ to{-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0)}}
 .m-show .box + .box{margin-top: .05rem;}
 .m-show .form{background: rgba(255,255,255,.95);padding: .2rem .15rem;border-radius: .05rem;}
 .m-show .form input[type=text]{width:100%;padding: .12rem;border-radius:.05rem;border: 2px solid #fad126;margin-bottom: .15rem;}
-.m-show .form input[type=submit]{display: block;width: 100%;height: .5035rem;color: #363636;margin: 0 auto;padding: .07rem 0 0.105rem;border: 0;font-size: .15rem;background: url(../images/btn.png) no-repeat;background-size: 100%;}}
+.m-show .form input[type=submit]{display: block;width: 100%;height: .5035rem;color: #363636;margin: 0 auto;padding: .07rem 0 0.105rem;border: 0;font-size: .15rem;background: url(../images/btn.png) no-repeat;background-size: 100%;}
