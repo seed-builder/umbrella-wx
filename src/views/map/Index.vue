@@ -9,6 +9,21 @@
         <a @click="routeTo('/help')" class="kf" title="客服"></a>
       </div>
     </div>
+    <div class="m-show" >
+      <div class="content" v-if="show_select">
+        <div class="box">
+          <a href="#">共享伞解锁</a>
+          <a class="red" @click="scan()">扫码借伞</a>
+        </div>
+        <div class="box">
+          <a class="blue" @click="input">手动输入</a>
+        </div>
+      </div>
+      <div class="form" v-if="show_unlock">
+        <input type="text" v-model="umbrella_number" placeholder="请输入伞柄上的数字" >
+        <input type="submit" value="立即用伞" @click="inputUnlock">
+      </div>
+    </div>
     <div class="m-menu" id="page-menu">
       <div class="logo"><img :src="head_img"></div>
       <div class="name">{{nickname}}</div>
@@ -72,6 +87,8 @@
 
       this.map.on('click', function(e) {
         self.map.clearInfoWindow();
+        self.show_select = false;
+        self.show_unlock = false;
       });
     },
     data() {
@@ -85,6 +102,9 @@
         head_img: localStorage.head_img_url,
         nickname: localStorage.nickname,
         sites: [],
+        show_select: false,
+        show_unlock: false,
+        umbrella_number: '',
       }
     },
     methods: {
@@ -93,13 +113,9 @@
 
         this.wxLocation();
       },
+      //解锁选项卡
       unlock: function () {
-
-      },
-
-      routeTo: function (url) {
-        this.jsAnimateMenu('close');
-        this.$router.push({path: url})
+        this.show_select = true;
       },
 
       //微信定位
@@ -159,10 +175,37 @@
 
       //扫码借伞
       scan: function () {
-        alert('扫码借伞')
+        wx.scanQRCode({
+          desc: 'scanQRCode desc',
+          needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+          scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+          success: function (res) {
+
+          },
+          error: function (res) {
+            if (res.errMsg.indexOf('function_not_exist') > 0) {
+              alert('版本过低请升级')
+            }
+          }
+        });
       },
+      //手动输入框
       input: function () {
-        alert('手动输入')
+        this.show_select = false;
+        this.show_unlock = true;
+      },
+      //手动输入解锁
+      inputUnlock : function () {
+        let self = this;
+        if (self.umbrella_number==''){
+          s_layer.alert('请输入伞编号')
+          return ;
+        }
+        Request.get('/api/umbrella/unlock',{
+          'number' : self.umbrella_number
+        },function (data) {
+          console.log(data)
+        })
       },
 
       //网点列表
@@ -239,7 +282,12 @@
          });
        })
 
-     }
+     },
+
+      routeTo: function (url) {
+        this.jsAnimateMenu('close');
+        this.$router.push({path: url})
+      },
     }
 
   }
@@ -250,5 +298,24 @@
     height: 100vh;
   }
 
+  @keyframes fade-in {
+    0% {height: 0px;}
+    20% {height: 26px;}
+    40% {height: 72px;}
+    80% {height: 144px;}
+    100% {height: 180px;}
+  }
+  @-webkit-keyframes fade-in {/*针对webkit内核*/
+    0% {height: 0%;}
+    20% {height: 20%;}
+    40% {height: 40%;}
+    80% {height: 80%;}
+    100% {height: 100%;}
+  }
+  .m-show {
+    animation: fade-in;/*动画名称*/
+    animation-duration: 0.1s;/*动画持续时间*/
+    -webkit-animation:fade-in 0.1s;/*针对webkit内核*/
+  }
 </style>
 
