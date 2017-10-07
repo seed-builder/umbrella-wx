@@ -204,7 +204,9 @@
         Request.get('/api/umbrella/unlock',{
           'number' : self.umbrella_number
         },function (data) {
-          console.log(data)
+          s_layer.alert(data.msg)
+        },function (data) {
+          s_layer.alert(data.msg)
         })
       },
 
