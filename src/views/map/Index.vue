@@ -66,6 +66,7 @@
   import Request from '../../assets/js/request.js'
   import siteLogo from '../../assets/images/icon_site.png'
   import s_layer from "../../assets/js/s_layer";
+  import goApi from "../../assets/js/golang_config";
 
   let loactionMarker;
   export default {
@@ -115,7 +116,13 @@
       },
       //解锁选项卡
       unlock: function () {
-        this.show_select = true;
+        Request.get('/api/umbrella/unlock-check',{}
+        ,function (data) {
+            this.show_select = true;
+
+        },function (data) {
+          s_layer.alert(data.msg)
+        })
       },
 
       //微信定位
@@ -175,12 +182,14 @@
 
       //扫码借伞
       scan: function () {
+        let self = this;
         wx.scanQRCode({
           desc: 'scanQRCode desc',
           needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
           scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
           success: function (res) {
-
+            let sn = self.cutEquSn(res.resultStr);
+            self.unlockGo(sn)
           },
           error: function (res) {
             if (res.errMsg.indexOf('function_not_exist') > 0) {
@@ -189,6 +198,29 @@
           }
         });
       },
+      //调用golang接口 开始借伞流程
+      unlockGo : function (sn) {
+        let self = this;
+        let url = goApi.host + 'customer/' + localStorage.customer_id + '/hire/' + sn + '?sign=' + md5(localStorage.customer_id + sn + goApi.sign_key);
+        s_layer.loading('请根据指示灯指示，将伞移至扫描区');
+        Request.post(url,{}
+        ,function (data) {
+          self.unlockResult(data.hire_id,data.channel);
+
+        },function (data) {
+          s_layer.alert(data.msg)
+        })
+      },
+      //解锁伞结果处理
+      unlockResult : function (hire_id,channel) {
+        Request.get('/api/customer-hire/check/'+hire_id,{},function (res) {
+          s_layer.closeLoading();
+          s_layer.alert('出伞成功，请到机器上'+channel+'号通道领取您的伞')
+        },function (data) {
+          s_layer.alert(data.msg)
+        })
+      },
+
       //手动输入框
       input: function () {
         this.show_select = false;
@@ -286,6 +318,13 @@
 
      },
 
+      cutEquSn : function (sn) {
+        let state_index = str.indexOf('state')
+        let end_index = str.indexOf('#wechat_redirect');
+        let sn = str.substring(state_index + 20, end_index)  //state=mobileAAscanAA length = 20
+
+        return sn;
+      },
       routeTo: function (url) {
         this.jsAnimateMenu('close');
         this.$router.push({path: url})

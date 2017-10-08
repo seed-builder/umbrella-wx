@@ -22,6 +22,7 @@
         localStorage.token = data.token;
         localStorage.nickname = data.customer.nickname;
         localStorage.head_img_url = data.customer.head_img_url;
+        localStorage.customer_id = data.customer.id;
 
         if (data.url){
           self.$router.push({path: data.url})
