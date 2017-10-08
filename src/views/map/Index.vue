@@ -318,7 +318,7 @@
 
      },
 
-      cutEquSn : function (sn) {
+      cutEquSn : function (str) {
         let state_index = str.indexOf('state')
         let end_index = str.indexOf('#wechat_redirect');
         let sn = str.substring(state_index + 20, end_index)  //state=mobileAAscanAA length = 20
