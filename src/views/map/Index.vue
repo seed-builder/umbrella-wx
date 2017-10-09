@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="m-show" >
-      <div class="content" v-if="show_select">
+      <div class="content" v-show="show_select">
         <div class="box">
           <a href="#">共享伞解锁</a>
           <a class="red" @click="scan()">扫码借伞</a>
@@ -19,7 +19,7 @@
           <a class="blue" @click="input">手动输入</a>
         </div>
       </div>
-      <div class="form" v-if="show_unlock">
+      <div class="form" v-show="show_unlock">
         <input type="text" v-model="umbrella_number" placeholder="请输入伞柄上的数字" >
         <input type="submit" value="立即用伞" @click="inputUnlock">
       </div>
@@ -116,9 +116,10 @@
       },
       //解锁选项卡
       unlock: function () {
+        let self = this;
         Request.get('/api/umbrella/unlock-check',{}
         ,function (data) {
-            this.show_select = true;
+            self.show_select = true;
 
         },function (data) {
           s_layer.alert(data.msg)
@@ -208,12 +209,16 @@
           self.unlockResult(data.hire_id,data.channel);
 
         },function (data) {
-          s_layer.alert(data.msg)
+          s_layer.alert('借伞失败')
         })
       },
       //解锁伞结果处理
       unlockResult : function (hire_id,channel) {
         Request.get('/api/customer-hire/check/'+hire_id,{},function (res) {
+          //关闭解锁选项卡
+          self.show_select = false;
+          self.show_unlock = false;
+
           s_layer.closeLoading();
           s_layer.alert('出伞成功，请到机器上'+channel+'号通道领取您的伞')
         },function (data) {
