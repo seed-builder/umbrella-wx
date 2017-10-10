@@ -35,7 +35,8 @@
 //          self.$router.push({path: url})
 //          return ;
 //        }
-        self.$router.push({path: '/map'})
+        window.location.href = '/map';
+//        self.$router.push({path: '/map'})
       })
     },
   }

@@ -17,7 +17,7 @@
           </div>
           <div class="form-price">
             <div class="form-label">提现金额</div>
-            <div class="form-control"><input type="text" placeholder="请输入您要提现的金额" v-model="amt"><span class="unit">¥</span></div>
+            <div class="form-control"><input type="number" placeholder="请输入您要提现的金额" v-model="amt"><span class="unit">¥</span></div>
           </div>
         </div>
         <div class="form-tip"><i class="icon"></i>每个用户每天最多有三次提现次数</div>
@@ -54,6 +54,8 @@
         Request.post('/api/customer-withdraw', {
           'amt' : self.amt
         }, function (data) {
+          s_layer.alert(data.msg);
+        },function (data) {
           s_layer.alert(data.msg);
         })
       }
