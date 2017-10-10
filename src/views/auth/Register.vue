@@ -11,7 +11,7 @@
           <div class="form-item">
             <i class="icon icon-code"></i>
             <input class="form-input" type="text" name="valicode" placeholder="请输入验证码" id="valicode" v-model="valicode" />
-            <input type="button" class="form-code" id="getSmsCode" value="发送验证码" :disabled="!smsEnabled" data-status="0" @click="getSmsCode">
+            <input type="button" class="form-code" id="getSmsCode" :value="btnContent" :disabled="!smsEnabled" data-status="0" @click="getSmsCode">
           </div>
           <div class="form-btn">
             <input class="btn" type="button" value="注册" id="loginForm-btn" @click="doRegister" />
@@ -32,6 +32,7 @@
         phone: '',
         valicode: '',
         smsEnabled: false,
+        btnContent: '发送验证码',
       }
     },
     watch:{
@@ -45,13 +46,32 @@
       },
       async getSmsCode(){
         ///api/utl/sms-verify
+        var vm = this;
+        var time = 59;
         const result = await Request.asyncPost('/api/utl/sms-verify', {phone: this.phone});
-        if(result.result.Code == 'OK'){
+        if(result.success){
           this.$layer.toast({
             icon: 'icon-check', // 图标clssName 如果为空 toast位置位于下方,否则居中
             content: '发送成功',
             time: 2000 // 自动消失时间 toast类型默认消失时间为2000毫秒
-          })
+          });
+          vm.smsEnabled = false;
+          var timer = setInterval(function () {
+            time--;
+            if (time < 0) {
+              vm.smsEnabled = true;
+              vm.btnContent = '重新获取';
+              clearInterval(timer);
+            } else {
+              vm.btnContent = time + " s";
+            }
+          }, 1000);
+        }else{
+          this.$layer.toast({
+            icon: 'icon-check', // 图标clssName 如果为空 toast位置位于下方,否则居中
+            content: '发送失败',
+            time: 2000 // 自动消失时间 toast类型默认消失时间为2000毫秒
+          });
         }
       },
       async doRegister(){
