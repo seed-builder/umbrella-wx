@@ -15,12 +15,20 @@
           <p>押金：¥ {{formatMoney(entity.deposit_amt)}}</p>
         </li>
       </ul>
+      <div class="m-form" v-if="entity.wait_pay">
+        <div class="form-btn">
+          <input class="btn" type="button" :value="'待支付'+formatMoney(entity.hire_amt)" @click="pay"/>
+        </div>
+      </div>
     </div>
+
   </div>
 </template>
 
 <script>
   import Request from '../../assets/js/request.js'
+  import WxPay from '../../assets/js/wechat_pay.js'
+  import s_layer from "../../assets/js/s_layer";
 
   export default {
     data() {
@@ -32,6 +40,21 @@
     methods: {
       formatMoney(money){
         return parseInt(money);
+      },
+      pay(){
+        s_layer.loading('请稍等...');
+        Request.get('/api/customer-hire/pay/'+entity.id,{}
+        ,function (data) {
+          s_layer.closeLoading();
+          if (data.data.js_params){
+            WxPay.pay(data.data.js_params, function () {
+              self.paySuccess(data.data.order_id)
+            });
+          }else {
+            s_layer.alert('支付成功');
+          }
+
+        })
       }
     },
     async mounted() {

@@ -5,7 +5,7 @@
     </div>
     <div v-else>
       <ul class="list" v-for="item in payments">
-        <li>
+        <li @click="view(item.id)">
           <p class="time">{{item.created_at}}</p>
           <p>订单编号：{{item.sn}}</p>
           <p>交易金额：¥{{item.amt}}</p>
@@ -55,8 +55,12 @@
         }else{
           this.hasMore = false;
         }
+      },
+      view(id){
+        this.$router.push('/payment/view/' + id);
       }
     },
+
     mounted() {
       this.getMore();
     }

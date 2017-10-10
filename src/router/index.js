@@ -81,7 +81,7 @@ export default new Router({
       component: Payment
     },
     {
-      path: '/payment/view',
+      path: '/payment/view/:id',
       component: PaymentView
     },
     {
