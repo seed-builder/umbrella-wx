@@ -13,6 +13,7 @@ import AccountDeposit from '@/views/customer-account/Deposit'
 import AccountWithdraw from '@/views/customer-account/Withdraw'
 
 import Hire from '@/views/customer-hire/Index'
+import HireView from '@/views/customer-hire/View'
 
 import Payment from '@/views/customer-payment/Index'
 import PaymentView from '@/views/customer-payment/View'
@@ -70,6 +71,10 @@ export default new Router({
     {
       path: '/hire',
       component: Hire
+    },
+    {
+      path: '/hire/view/:id',
+      component: HireView
     },
     {
       path: '/payment',

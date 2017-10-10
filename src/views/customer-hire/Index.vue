@@ -5,12 +5,12 @@
     </div>
     <div v-else>
       <ul class="list" v-for="item in hires">
-        <li>
+        <li @click="view(item.id)">
           <p class="time">{{item.created_at}}</p>
           <p>雨伞编号：{{item.umbrella.number}}</p>
           <p>起始位置：{{item.hire_site.name}}</p>
           <p>终点位置：{{item.return_site.name}}</p>
-          <p>使用时长：{{item.hire_hours}}</p>
+          <p>使用时长：{{formatTime(item.hire_hours)}}</p>
         </li>
       </ul>
       <div v-if="hasMore">
@@ -37,7 +37,7 @@
       }
     },
     methods: {
-      getMore: async function () {
+      async getMore () {
         var url = '/api/customer-hire';
         this.curPage ++;
         var data = {
@@ -55,6 +55,21 @@
         }else{
           this.hasMore = false;
         }
+      },
+      formatTime(hours){
+        var floor = Math.floor(hours);
+        var minutes = Math.floor((hours - floor) * 60);
+        var str = '';
+        if( floor > 0 ){
+          str += floor + '时';
+        }
+        if(minutes >= 0){
+          str += minutes + '分'
+        }
+        return str;
+      },
+      view(id){
+        this.$router.push('/hire/view/' + id);
       }
     },
     mounted() {
