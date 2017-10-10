@@ -6,7 +6,7 @@
     <div v-else>
       <ul class="list" v-for="item in hires">
         <li @click="view(item.id)">
-          <p class="time">{{item.created_at}}</p>
+          <p class="time">{{item.created_at}}<span class="pull-right">{{item.status_name}}</span></p>
           <p>雨伞编号：{{item.umbrella.number}}</p>
           <p>起始位置：{{item.hire_site.name}}</p>
           <p>终点位置：{{item.return_site.name}}</p>
@@ -79,5 +79,7 @@
   }
 </script>
 <style scoped>
-
+  .pull-right{
+    float:right;
+  }
 </style>

@@ -49,7 +49,6 @@
 <style scoped>
   .pull-right{
     float:right;
-    color:
   }
 
 </style>
