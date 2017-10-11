@@ -29,27 +29,37 @@ import Comment from '@/views/comment/Index'
 
 Vue.use(Router)
 
-export default new Router({
+var router =  new Router({
   mode : 'history',
   routes: [
     {
       path: '/',
+      name: 'Home',
+      meta: {title: '柒天伞客'},
       component: CheckAuth
     },
     {
       path: '/register',
+      name: 'Register',
+      meta: {title: '注册'},
       component: Register
     },
     {
       path: '/about',
+      name: 'about',
+      meta: {title: '关于我们'},
       component: About
     },
     {
       path: '/comment',
+      name: 'Comment',
+      meta: {title: '我要反馈'},
       component: Comment
     },
     {
       path: '/customer',
+      name: 'Customer',
+      meta: {title: '个人资料'},
       component: Customer
     },
     {
@@ -58,6 +68,8 @@ export default new Router({
     },
     {
       path: '/account',
+      name: 'Account',
+      meta: {title: '我的钱包'},
       component: Account
     },
     {
@@ -70,6 +82,8 @@ export default new Router({
     },
     {
       path: '/hire',
+      name: 'Hire',
+      meta: {title: '用伞记录'},
       component: Hire
     },
     {
@@ -78,6 +92,8 @@ export default new Router({
     },
     {
       path: '/payment',
+      name: 'Payment',
+      meta: {title: '资金记录'},
       component: Payment
     },
     {
@@ -86,6 +102,8 @@ export default new Router({
     },
     {
       path: '/help',
+      name: 'Help',
+      meta: {title: '帮助中心'},
       component: Help
     },
     {
@@ -95,15 +113,27 @@ export default new Router({
     },
     {
       path: '/map',
+      name: 'Map',
+      meta: {title: '柒天伞客'},
       component: Map
     },
     {
       path: '/register-protocol',
+      name: 'RegisterProtocol',
+      meta: {title: '注册协议'},
       component: RegisterProtocol
     },
     {
       path: '/recharge-protocol',
+      name: 'RechargeProtocol',
+      meta: {title: '充值协议'},
       component: RechargeProtocol
     }
   ]
-})
+});
+router.afterEach((transition) => {
+  if( transition.meta.title ){
+    document.title = transition.meta.title;
+  }
+});
+export default router;
