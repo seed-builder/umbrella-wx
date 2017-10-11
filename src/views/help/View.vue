@@ -17,9 +17,10 @@
       var self = this;
       var id = this.$route.params.id;
       Request.get('/api/help/' + id, {}, function (data) {
-        console.log(data);
+//        console.log(data);
         if (data){
           self.content = data.content;
+          document.title = data.name;
         }
       });
     },
