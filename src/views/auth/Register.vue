@@ -14,7 +14,7 @@
             <input type="button" class="form-code" id="getSmsCode" :value="btnContent" :disabled="!smsEnabled" data-status="0" @click="getSmsCode">
           </div>
           <div class="form-btn">
-            <input class="btn" type="button" value="注册" id="loginForm-btn" @click="doRegister" />
+            <input class="btn" type="button" value="注册" id="loginForm-btn" @click="doRegister" :disabled="!regEnabled"/>
           </div>
           <div class="form-tip">点击注册即同意<span class="agree" @click="gotoProtocol">《用户注册协议》</span></div>
         </form>
@@ -32,12 +32,16 @@
         phone: '',
         valicode: '',
         smsEnabled: false,
+        regEnabled: false,
         btnContent: '发送验证码',
       }
     },
     watch:{
       phone: function () {
         this.smsEnabled = /^[0-9]{11}$/.test(this.phone);
+      },
+      valicode: function () {
+        this.regEnabled = this.valicode.length > 0;
       }
     },
     methods: {
@@ -50,11 +54,7 @@
         var time = 59;
         const result = await Request.asyncPost('/api/utl/sms-verify', {phone: this.phone});
         if(result.success){
-          this.$layer.toast({
-            icon: 'icon-check', // 图标clssName 如果为空 toast位置位于下方,否则居中
-            content: '发送成功',
-            time: 2000 // 自动消失时间 toast类型默认消失时间为2000毫秒
-          });
+          this.toast('发送成功');
           vm.smsEnabled = false;
           var timer = setInterval(function () {
             time--;
@@ -67,11 +67,7 @@
             }
           }, 1000);
         }else{
-          this.$layer.toast({
-            icon: 'icon-check', // 图标clssName 如果为空 toast位置位于下方,否则居中
-            content: '发送失败',
-            time: 2000 // 自动消失时间 toast类型默认消失时间为2000毫秒
-          });
+          this.toast('发送失败');
         }
       },
       async doRegister(){
@@ -83,13 +79,16 @@
             this.$router.push({path: '/map'});
           }
         }else{
-          this.$layer.toast({
-            icon: 'icon-check', // 图标clssName 如果为空 toast位置位于下方,否则居中
-            content: '验证码错误',
-            time: 2000 // 自动消失时间 toast类型默认消失时间为2000毫秒
-          })
+          this.toast('验证码错误');
         }
-      }
+      },
+      toast(msg){
+        this.$layer.toast({
+          icon: 'icon-check', // 图标clssName 如果为空 toast位置位于下方,否则居中
+          content: msg,
+          time: 2000 // 自动消失时间 toast类型默认消失时间为2000毫秒
+        })
+      },
     }
   }
 </script>
