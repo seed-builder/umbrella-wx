@@ -88,6 +88,8 @@ var router =  new Router({
     },
     {
       path: '/hire/view/:id',
+      name: 'HireView',
+      meta: {title: '用伞详情'},
       component: HireView
     },
     {
