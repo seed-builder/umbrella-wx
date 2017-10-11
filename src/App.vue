@@ -23,5 +23,5 @@
 
 <style lang="css">
   /*@import "./assets/js/layer/theme/layer.css";*/
-  @import "./assets/css/style.css";
+  @import "./assets/css/style-1.css";
 </style>
