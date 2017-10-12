@@ -36,7 +36,7 @@
               <input type="text" name="price" placeholder="其他金额" v-model="custom_amt">
             </span>
           </div>
-          <div class="form-tip">点击充值，代表已接受<a class="agree" href="/recharge-protocol">《充值协议》</a></div>
+          <div class="form-tip">点击充值，代表已接受<a class="agree" @click="routeTo('/recharge-protocol')">《充值协议》</a></div>
           <div class="form-btn">
             <input class="btn" type="submit" value="充值" id="chargeForm-btn" @click="submit"/>
           </div>

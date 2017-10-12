@@ -2,7 +2,7 @@
   <div id="app">
     <wx-config></wx-config>
 
-    <router-view></router-view>
+    <router-view keep-alive></router-view>
   </div>
 </template>
 

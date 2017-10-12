@@ -16,7 +16,7 @@
           <div class="form-btn">
             <input class="btn" type="button" value="注册" id="loginForm-btn" @click="doRegister" :disabled="!regEnabled"/>
           </div>
-          <div class="form-tip" >点击注册即同意<a class="agree" href="/register-protocol">《用户注册协议》</a></div>
+          <div class="form-tip" >点击注册即同意<a class="agree" @click="gotoProtocol">《用户注册协议》</a></div>
         </form>
       </div>
     </div>
