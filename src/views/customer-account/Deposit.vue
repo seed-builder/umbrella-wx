@@ -7,10 +7,22 @@
       </div>
       <div class="m-form">
         <div class="m-wthdrawals">
-          <div class="form-item">
+
+          <div class="form-item" v-if="deposit_list.length==1">
             <label class="form-label">押金金额</label>
             <span class="form-val"><span class="unit">¥</span>{{deposit}}</span>
           </div>
+
+          <div class="form-item" v-if="deposit_list.length>1" v-for="item in deposit_list">
+            <label class="form-label">押金金额</label>
+            <div class="form-radio">
+              <label>
+                <input type="radio" :value="item" name="deposit" v-model="deposit" />
+                <i>{{item}}</i>
+              </label>
+            </div>
+          </div>
+
         </div>
         <div class="form-tip"><i class="icon"></i>点击充值押金，代表已接受<span class="agree">《押金充值协议》</span></div>
         <div class="form-btn">
@@ -30,7 +42,8 @@
     data() {
       return {
         entity : {},
-        deposit : 29
+        deposit : 29,
+        deposit_list : []
       }
     },
     methods: {
@@ -58,6 +71,7 @@
       Request.get('/api/price',{},function (data) {
 //        self.entity = data[0];
         self.deposit = data[0];
+        self.deposit_list = data;
       })
     }
   }
