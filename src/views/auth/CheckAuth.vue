@@ -29,12 +29,13 @@
           return ;
         }
 
-//        if (self.$route.query.state&&self.$route.query.state!='123') {
-//          let state = self.$route.query.state;
-//          let url = state.replace(/AA/g,'/');
+        if (self.$route.query.state&&self.$route.query.state!='123') {
+          let state = self.$route.query.state;
+          let url = state.replace(/AA/g,'/');
 //          self.$router.push({path: url})
-//          return ;
-//        }
+          window.location.href = url;
+          return ;
+        }
         window.location.href = '/map';
 //        self.$router.push({path: '/map'})
       })
