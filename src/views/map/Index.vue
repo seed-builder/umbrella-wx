@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="m-index" >
-      <div class="m-conbox" >
-        <div id="map" class="map" ></div>
+    <div class="m-index">
+      <div class="m-conbox">
+        <div id="map" class="map"></div>
         <a @click="showSidebar()" class="account" title="我的个人信息"></a>
         <a @click="location()" class="location" title="定位"></a>
         <a @click="unlock()" class="scan" href="#" title="扫描"></a>
         <a @click="routeTo('/help')" class="kf" title="客服"></a>
       </div>
     </div>
-    <div class="m-show" >
+    <div class="m-show">
       <div class="content" v-show="show_select">
         <div class="box">
           <a href="#">共享伞解锁</a>
@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="form" v-show="show_unlock">
-        <input type="text" v-model="umbrella_number" placeholder="请输入伞柄上的数字" >
+        <input type="text" v-model="umbrella_number" placeholder="请输入伞柄上的数字">
         <input type="submit" value="立即用伞" @click="inputUnlock">
       </div>
     </div>
@@ -86,7 +86,7 @@
       this.checkNph();
       this.getSites();
 
-      this.map.on('click', function(e) {
+      this.map.on('click', function (e) {
         self.map.clearInfoWindow();
         self.show_select = false;
         self.show_unlock = false;
@@ -117,13 +117,20 @@
       //解锁选项卡
       unlock: function () {
         let self = this;
-        Request.get('/api/umbrella/unlock-check',{}
-        ,function (data) {
+        Request.get('/api/umbrella/unlock-check', {}
+          , function (data) {
             self.show_select = true;
 
-        },function (data) {
-          s_layer.alert(data.msg)
-        })
+          }, function (data) {
+            if (data.msg == '当前押金不足，请先充值押金'){
+              s_layer.alert(data.msg,function(){
+                self.$router.push({path: '/account/deposit'})
+              })
+              return ;
+            }
+
+            s_layer.alert(data.msg)
+          })
       },
 
       //微信定位
@@ -200,28 +207,28 @@
         });
       },
       //调用golang接口 开始借伞流程
-      unlockGo : function (sn) {
+      unlockGo: function (sn) {
         let self = this;
         let url = goApi.host + 'customer/' + localStorage.customer_id + '/hire/' + sn + '?sign=' + md5(localStorage.customer_id + sn + goApi.sign_key);
         s_layer.loading('请根据指示灯指示，将伞移至扫描区');
-        Request.post(url,{}
-        ,function (data) {
-          self.unlockResult(data.hire_id,data.channel);
+        Request.post(url, {}
+          , function (data) {
+            self.unlockResult(data.hire_id, data.channel);
 
-        },function (data) {
-          s_layer.alert('借伞失败')
-        })
+          }, function (data) {
+            s_layer.alert('借伞失败')
+          })
       },
       //解锁伞结果处理
-      unlockResult : function (hire_id,channel) {
-        Request.get('/api/customer-hire/check/'+hire_id,{},function (res) {
+      unlockResult: function (hire_id, channel) {
+        Request.get('/api/customer-hire/check/' + hire_id, {}, function (res) {
           //关闭解锁选项卡
           self.show_select = false;
           self.show_unlock = false;
 
           s_layer.closeLoading();
-          s_layer.alert('出伞成功，请到机器上'+channel+'号通道领取您的伞')
-        },function (data) {
+          s_layer.alert('出伞成功，请到机器上' + channel + '号通道领取您的伞')
+        }, function (data) {
           s_layer.alert(data.msg)
         })
       },
@@ -232,17 +239,17 @@
         this.show_unlock = true;
       },
       //手动输入解锁
-      inputUnlock : function () {
+      inputUnlock: function () {
         let self = this;
-        if (self.umbrella_number==''){
+        if (self.umbrella_number == '') {
           s_layer.alert('请输入伞编号')
-          return ;
+          return;
         }
-        Request.get('/api/umbrella/unlock',{
-          'number' : self.umbrella_number
-        },function (data) {
+        Request.get('/api/umbrella/unlock', {
+          'number': self.umbrella_number
+        }, function (data) {
           s_layer.alert(data.msg)
-        },function (data) {
+        }, function (data) {
           s_layer.alert(data.msg)
         })
       },
@@ -284,46 +291,46 @@
           content: self.windowContent(data),
           offset: new AMap.Pixel(25, -35)
         });
-          AMap.event.addListener(marker, 'click', function () {
-            self.openInfoWin(infoWindow,marker);
-          });
+        AMap.event.addListener(marker, 'click', function () {
+          self.openInfoWin(infoWindow, marker);
+        });
       },
-      windowContent : function (data) {
+      windowContent: function (data) {
         return '<div class="map-window amap-ui-smp-ifwn-container">' +
-          '  <div class="window-title">'+data.name+'</div>' +
+          '  <div class="window-title">' + data.name + '</div>' +
           '  <hr>' +
           '  <div class="window-content">' +
-          '    <p class="window-content-item">可用雨伞：'+data.umbrella_hava+' 把</p>' +
-          '    <p class="window-content-item">可还伞位：'+data.umbrella_repay+' 把</p>' +
+          '    <p class="window-content-item">可用雨伞：' + data.umbrella_hava + ' 把</p>' +
+          '    <p class="window-content-item">可还伞位：' + data.umbrella_repay + ' 把</p>' +
           '  </div>' +
           '  <hr>' +
           '  <div class="window-footer">' +
-          '    <img src="'+data.photo+'">' +
+          '    <img src="' + data.photo + '">' +
           '  </div>' +
           '</div>' +
           '<div class="info-bottom" style="position: relative; top: 0px; margin: 0px auto;width: 5vh;"><img src="http://webapi.amap.com/images/sharp.png"></div>'
       },
-      openInfoWin : function (infoWindow,marker) {
+      openInfoWin: function (infoWindow, marker) {
         infoWindow.open(this.map, marker.getPosition());
       },
 
-     //检查未完成租借单数量
-     checkNph:function () {
-       let self = this;
-       Request.get('/api/customer-hire/customer/no-completes', {},function () {
+      //检查未完成租借单数量
+      checkNph: function () {
+        let self = this;
+        Request.get('/api/customer-hire/customer/no-completes', {}, function () {
 
-       },function (data) {
-         if (!data.msg)
-           return ;
+        }, function (data) {
+          if (!data.msg)
+            return;
 
-         s_layer.options(data.msg,['去支付','先借伞'],function () {
-           self.$router.push({path: '/payment'})
-         });
-       })
+          s_layer.options(data.msg, ['去支付', '先借伞'], function () {
+            self.$router.push({path: '/payment'})
+          });
+        })
 
-     },
+      },
 
-      cutEquSn : function (str) {
+      cutEquSn: function (str) {
         let state_index = str.indexOf('state')
         let end_index = str.indexOf('#wechat_redirect');
         let sn = str.substring(state_index + 20, end_index)  //state=mobileAAscanAA length = 20
@@ -345,23 +352,45 @@
   }
 
   @keyframes fade-in {
-    0% {height: 0px;}
-    20% {height: 26px;}
-    40% {height: 72px;}
-    80% {height: 144px;}
-    100% {height: 180px;}
+    0% {
+      height: 0px;
+    }
+    20% {
+      height: 26px;
+    }
+    40% {
+      height: 72px;
+    }
+    80% {
+      height: 144px;
+    }
+    100% {
+      height: 180px;
+    }
   }
-  @-webkit-keyframes fade-in {/*针对webkit内核*/
-    0% {height: 0%;}
-    20% {height: 20%;}
-    40% {height: 40%;}
-    80% {height: 80%;}
-    100% {height: 100%;}
+
+  @-webkit-keyframes fade-in { /*针对webkit内核*/
+    0% {
+      height: 0%;
+    }
+    20% {
+      height: 20%;
+    }
+    40% {
+      height: 40%;
+    }
+    80% {
+      height: 80%;
+    }
+    100% {
+      height: 100%;
+    }
   }
+
   .m-show {
-    animation: fade-in;/*动画名称*/
-    animation-duration: 0.1s;/*动画持续时间*/
-    -webkit-animation:fade-in 0.1s;/*针对webkit内核*/
+    animation: fade-in; /*动画名称*/
+    animation-duration: 0.1s; /*动画持续时间*/
+    -webkit-animation: fade-in 0.1s; /*针对webkit内核*/
   }
 </style>
 
