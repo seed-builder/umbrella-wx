@@ -2,6 +2,8 @@ import axios from 'axios'
 import qs from 'qs';
 import slayer from "./s_layer";
 
+// axios.defaults.timeout = 60000;
+
 export function qsdata(data) {
   return qs.stringify(data);
 }
@@ -12,20 +14,30 @@ export default {
 
     return axios.post(url, qsdata(data))
       .then(function (response) {
+        // if (!response.data.success) {
+        //   slayer.alert(response.data.msg)
+        //   if (fail_callback) {
+        //     fail_callback();
+        //   }
+        // } else {
+        //   if (success_call)
+        //     success_call(response.data)
+        // }
+
+        if (response.data.success){
+          if (success_call)
+            success_call(response.data);
+        }
         if (!response.data.success) {
           slayer.alert(response.data.msg)
-          if (fail_callback) {
-            fail_callback();
-          }
-        } else {
-          if (success_call)
-            success_call(response.data)
+          if (fail_callback)
+            fail_callback(response.data);
         }
-
 
       })
       .catch(function (error) {
-        console.log(error);
+        slayer.closeLoading();
+        slayer.alert('系统繁忙，请稍后再试')
       });
   },
   get (url, params, success_callback, fail_callback) {
