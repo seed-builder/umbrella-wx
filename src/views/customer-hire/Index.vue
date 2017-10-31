@@ -8,8 +8,8 @@
         <li @click="view(item.id)">
           <p class="time">{{item.created_at}}<span class="pull-right">{{item.status_name}}</span></p>
           <p>雨伞编号：{{item.umbrella.number}}</p>
-          <p>起始位置：{{item.hire_site.name}}</p>
-          <p>终点位置：{{item.return_site.name}}</p>
+          <p>起始位置：{{item.hire_site ? item.hire_site.name : ''}}</p>
+          <p>终点位置：{{item.return_site ? item.return_site.name : ''}}</p>
           <p>使用时长：{{formatTime(item.hire_hours)}}</p>
         </li>
       </ul>

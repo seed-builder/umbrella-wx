@@ -14,7 +14,7 @@
             <input type="button" class="form-code" id="getSmsCode" :value="btnContent" :disabled="!smsEnabled" data-status="0" @click="getSmsCode">
           </div>
           <div class="form-btn">
-            <input class="btn" type="button" value="注册" id="loginForm-btn" @click="doRegister" :disabled="!regEnabled"/>
+            <input class="btn" type="button" v-model="btnRegister" id="loginForm-btn" @click="doRegister" />
           </div>
           <div class="form-tip" >点击注册即同意<a class="agree" @click="gotoProtocol">《用户注册协议》</a></div>
         </form>
@@ -34,6 +34,7 @@
         smsEnabled: false,
         regEnabled: false,
         btnContent: '发送验证码',
+        btnRegister: '注册'
       }
     },
     watch:{
@@ -72,6 +73,7 @@
       },
       async doRegister(){
         ///api/customer/
+        this.btnRegister = '注册中...';
         const verify = await Request.asyncPost('/api/utl/check-verify', {phone: this.phone, code: this.valicode});
         if(verify.success) {
           const result = await Request.asyncPost('/api/customer/0', {mobile: this.phone});
@@ -80,6 +82,7 @@
           }
         }else{
           this.toast('验证码错误');
+          this.btnRegister = '注册';
         }
       },
       toast(msg){
