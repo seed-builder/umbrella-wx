@@ -55,8 +55,6 @@
           'amt' : self.amt
         }, function (data) {
           s_layer.alert(data.msg);
-        },function (data) {
-          s_layer.alert(data.msg);
         })
       }
     },

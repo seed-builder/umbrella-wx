@@ -17,7 +17,7 @@
       </ul>
       <div class="m-form" v-if="entity.wait_pay">
         <div class="form-btn">
-          <input class="btn" type="button" :value="'待支付'+formatMoney(entity.hire_amt)" @click="pay"/>
+          <input class="btn" type="button" :value="'待支付'+entity.hire_amt+'元'" @click="pay"/>
         </div>
       </div>
     </div>
@@ -39,34 +39,46 @@
     },
     methods: {
       formatMoney(money){
-        return parseInt(money);
+        return parseFloat(money);
       },
       pay(){
+        var self = this;
         s_layer.loading('请稍等...');
-        Request.get('/api/customer-hire/pay/'+entity.id,{}
+        Request.get('/api/customer-hire/pay/'+self.entity.id,{}
         ,function (data) {
           s_layer.closeLoading();
-          if (data.data.js_params){
-            WxPay.pay(data.data.js_params, function () {
-              self.paySuccess(data.data.order_id)
+          if (data.js_params){
+            WxPay.pay(data.js_params, function () {
+              self.paySuccess(data.order_id)
             });
           }else {
-            s_layer.alert('支付成功');
+            s_layer.alert('支付成功',function () {
+              location.reload();
+            });
           }
 
         })
       }
     },
-    async mounted() {
+    created(){
       var id = this.$route.params.id;
-      var url = '/api/customer-hire/' + id;
-      const res = await Request.asyncGet(url,null);
-      if(res.success){
-        this.entity = res.data;
-        this.hasData = true;
-      }
-//      console.log('Component mounted.')
-    }
+      var self = this;
+      Request.get('/api/customer-hire/'+id,{}
+        ,function (res) {
+          self.entity = res;
+          self.hasData = true;
+      })
+    },
+//    async mounted() {
+//      var id = this.$route.params.id;
+//      var url = '/api/customer-hire/' + id;
+//      const res = await Request.asyncGet(url,null);
+//      if(res.success){
+//        this.entity = res.data;
+//        this.hasData = true;
+//      }
+////      console.log('Component mounted.')
+//    }
   }
 </script>
 <style scoped>
