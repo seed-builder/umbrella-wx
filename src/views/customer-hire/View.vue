@@ -8,9 +8,9 @@
         <li>
           <p class="time">租借费用：¥ {{formatMoney(entity.hire_amt)}} <span class="pull-right">{{entity.status_name}}</span></p>
           <p>借伞时间：{{entity.hire_at}}</p>
-          <p>借伞网点：{{entity.hire_site.name}}</p>
+          <p>借伞网点：{{entity.hire_site ? entity.hire_site.name : ''}}</p>
           <p>还伞时间：{{entity.return_at}}</p>
-          <p>还伞网点：{{entity.return_site.name}}</p>
+          <p>还伞网点：{{entity.return_site ? entity.return_site.name : ''}}</p>
           <p>最迟还伞时间：{{entity.expired_at}}</p>
           <p>押金：¥ {{formatMoney(entity.deposit_amt)}}</p>
         </li>
