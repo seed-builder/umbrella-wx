@@ -221,6 +221,7 @@
       },
       //解锁伞结果处理
       unlockResult: function (hire_id, channel) {
+        let self = this;
         Request.get('/api/customer-hire/check/' + hire_id, {}, function (res) {
           //关闭解锁选项卡
           self.show_select = false;
