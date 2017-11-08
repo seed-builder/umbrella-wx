@@ -42,7 +42,7 @@
         return parseFloat(money);
       },
       pay(){
-        var self = this;
+        let self = this;
         s_layer.loading('请稍等...');
         Request.get('/api/customer-hire/pay/'+self.entity.id,{}
         ,function (data) {
@@ -50,16 +50,21 @@
           if (data.js_params){
             WxPay.pay(data.js_params, function () {
               self.paySuccess(data.order_id)
+              self.$router.push({path: '/map'})
             });
           }else {
             s_layer.alert('支付成功',function () {
-              location.reload();
+              self.$router.push({path: '/map'})
             });
           }
 
         })
-      }
+      },
+      paySuccess : function (id) {
+        Request.get('/api/wechat/return/'+id,{})
+      },
     },
+
     created(){
       var id = this.$route.params.id;
       var self = this;
