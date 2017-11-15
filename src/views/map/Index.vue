@@ -216,8 +216,13 @@
             self.unlockResult(data.hire_id, data.channel);
 
           }, function (data) {
-            s_layer.alert('借伞失败')
-          })
+//            s_layer.alert('借伞失败')
+            if (data.err) {
+              s_layer.alert(data.err);
+            }else{
+              s_layer.alert('借伞失败')
+            }
+          });
       },
       //解锁伞结果处理
       unlockResult: function (hire_id, channel) {
