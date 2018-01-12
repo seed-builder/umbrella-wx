@@ -302,6 +302,7 @@
         });
       },
       windowContent: function (data) {
+        var url = data.external_url != "" ? data.external_url : "#";
         return '<div class="map-window amap-ui-smp-ifwn-container">' +
           '  <div class="window-title">' + data.name + '</div>' +
           '  <hr>' +
@@ -311,7 +312,7 @@
           '  </div>' +
           '  <hr>' +
           '  <div class="window-footer">' +
-          '    <img src="' + data.photo + '">' +
+          '    <img src="' + data.photo + '" onclick="hrefTo(\''+url+'\')">' +
           '  </div>' +
           '</div>' +
           '<div class="info-bottom" style="position: relative; top: 0px; margin: 0px auto;width: 5vh;"><img src="http://webapi.amap.com/images/sharp.png"></div>'
@@ -350,6 +351,7 @@
     }
 
   }
+
 </script>
 
 <style scoped>

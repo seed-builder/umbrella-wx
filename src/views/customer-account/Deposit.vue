@@ -64,7 +64,13 @@
             self.paySuccess(data.data.order_id)
           });
         })
-      }
+      },
+      paySuccess : function (id) {
+        let self = this;
+        Request.get('/api/wechat/return/'+id,{},function () {
+          self.routeTo('/map');
+        })
+      },
     },
     mounted() {
       let self = this;
