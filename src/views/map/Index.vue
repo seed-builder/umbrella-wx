@@ -232,8 +232,11 @@
           self.show_select = false;
           self.show_unlock = false;
 
-          s_layer.closeLoading();
-          s_layer.alert('出伞成功，请到机器上' + channel + '号通道领取您的伞')
+          setTimeout(function () {
+            s_layer.closeLoading();
+            s_layer.alert('出伞成功，请到机器上' + channel + '号通道领取您的伞')
+          },3000)
+
         }, function (data) {
           s_layer.alert(data.msg)
         })
