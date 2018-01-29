@@ -12,7 +12,6 @@
     <div class="m-show">
       <div class="content" v-show="show_select">
         <div class="box">
-          <a href="#">共享伞解锁</a>
           <a class="red" @click="scan()">扫码借伞</a>
         </div>
         <div class="box">
