@@ -24,4 +24,7 @@
 <style lang="css">
   /*@import "./assets/js/layer/theme/layer.css";*/
   @import "./assets/css/style-1.css";
+  .layui-m-layer2 .layui-m-layercont{
+    line-height: 20px !important;
+  }
 </style>

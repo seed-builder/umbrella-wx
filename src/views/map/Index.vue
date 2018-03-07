@@ -209,7 +209,7 @@
       unlockGo: function (sn) {
         let self = this;
         let url = goApi.host + 'customer/' + localStorage.customer_id + '/hire/' + sn + '?sign=' + md5(localStorage.customer_id + sn + goApi.sign_key);
-        s_layer.loading('请根据指示灯指示，将伞移至扫描区');
+        s_layer.loading('请根据指示灯指示，将伞移至扫描区，停止5-10秒，不得移动！');
         Request.post(url, {}
           , function (data) {
             self.unlockResult(data.hire_id, data.channel);
