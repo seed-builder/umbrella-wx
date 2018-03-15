@@ -24,7 +24,7 @@
           </div>
 
         </div>
-        <div class="form-tip"><i class="icon"></i>点击充值押金，代表已接受<span class="agree">《押金充值协议》</span></div>
+        <div class="form-tip"><i class="icon"></i>点击充值押金，代表已接受<span class="agree" @click="routeTo('/recharge-protocol')">《押金充值协议》</span></div>
         <div class="form-btn">
           <input class="btn" type="submit" value="充押金" id="chargeForm-btn" @click="submit"/>
         </div>
